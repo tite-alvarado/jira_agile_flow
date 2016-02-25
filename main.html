@@ -1,0 +1,32 @@
+<head>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      {{> loginButtons }}
+    </div>
+    {{#if currentUser}}
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Tasks</h2>
+        </div>
+        <div class="col-md-8">
+          {{> addTask }}
+        </div>
+      </div>
+    {{/if}}
+  </header>
+
+  {{#if currentUser}}
+  <div class="row">
+    {{#each listNames}}
+      <div class="col-md-4">
+      <h3> {{ Name }} </h3>
+        {{> tasks n=(Name) }}
+      </div>
+    {{/each}}
+  </div><!-- close row -->
+  {{/if}}
+</div>
+</body> 
