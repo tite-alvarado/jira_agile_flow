@@ -7,9 +7,17 @@ if (Meteor.isClient){
       { Name: "To Do" },
       { Name: "In Progress" },
       { Name: "QA" },
-      { Name: "AT"},
+      { Name: "AT" },
       { Name: "Done" }
-    ],
+    ]
+  });
+
+  Template.article.helpers({
+    articles: [
+      { title: "Welcome", paragraph: "Welcome to the jira workflow helper app. Signup/Signin in order to create new tasks." },
+      { title: "Introduction", paragraph: "Jira workflow app helps you keep track of your tasks and states by providing a flexible categories list, the ability of creating new tasks and moving them between the states until they are finally in the Done list." },
+      { title: "Support", paragraph: "Please contact sysadmin if you need help." }
+    ]
   });
 
   Template.tasks.helpers({
@@ -27,7 +35,7 @@ if (Meteor.isClient){
     ],
 */
     task: function (list) {
-      return Tasks.find({"listName":list});
+      return Tasks.find({"listName":list, "owner":Meteor.userId()});
     }, 
   });
 
