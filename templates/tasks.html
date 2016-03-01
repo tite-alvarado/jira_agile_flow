@@ -1,5 +1,7 @@
 <template name="tasks">
+  <ul id="{{n}}" class="list-unstyled"> 
   {{#each task (n) }}
     <li> {{ text }} by <strong>{{ username }}</strong></li>
   {{/each}}
+  </ul>
 </template>
