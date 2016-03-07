@@ -2,6 +2,10 @@ Tasks = new Mongo.Collection("tasks");
 
 if (Meteor.isClient){
 
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
   Template.body.helpers({
     listNames: [
       { Name: "To Do" },
@@ -21,7 +25,6 @@ if (Meteor.isClient){
   });
 
   Template.tasks.helpers({
-/*  
     task: [
       { text: "Task 1", listName: "To Do" },
       { text: "Task 2", listName: "In Progress" },
@@ -33,10 +36,25 @@ if (Meteor.isClient){
       { text: "Task 8", listName: "In Progress" },
       { text: "Task 9", listName: "AT" }
     ],
-*/
+
     task: function (list) {
       return Tasks.find({"listName":list, "owner":Meteor.userId()});
+    },
+/*
+    taskOptions: function () {
+      return {
+        group: "T",
+        // Need to determine proper event onDrop onSort onUpdate
+        onDrop: function(event) {
+          console.log(event);
+          //console.log("Moved task %d from %d to %d", event.data._id, event.data.listName, event.data);
+          var task = event.data._id;
+          var list = event.data.target;
+          Tasks.update({"_id":task},{$set:{"listName":list}});          
+        }
+      }
     }
+*/
   });
 
   Template.addTask.events({
@@ -57,36 +75,23 @@ if (Meteor.isClient){
      }
    });
 
-  Accounts.ui.config({
-    passwordSignupFields: "USERNAME_ONLY"
-  });
-
-  Tracker.autorun(
-    function(){      
-      var Todo = document.getElementById("To Do");
-      Sortable.create(Todo, { group: "T" });
-      var InProgress = document.getElementById("In Progress");
-      Sortable.create(InProgress, { group: "T" });
-      var QA = document.getElementById("QA");
-      Sortable.create(QA, { group: "T" });
-      var AT = document.getElementById("AT");
-      Sortable.create(AT, { group: "T" });
-      var Done = document.getElementById("Done");
-      Sortable.create(Done, { group: "T" });
+/* persistance needs tracker commented out*/
+  Tracker.autorun( function() {
+    if (Meteor.userId()){
+      // console.log("User ID :" + Meteor.userId());
+      setTimeout(function(){
+        var Todo = document.getElementById("To Do");
+        Sortable.create(Todo, { group: "T" });
+        var InProgress = document.getElementById("In Progress");
+        Sortable.create(InProgress, { group: "T" });
+        var QA = document.getElementById("QA");
+        Sortable.create(QA, { group: "T" });
+        var AT = document.getElementById("AT");
+        Sortable.create(AT, { group: "T" });
+        var Done = document.getElementById("Done");
+        Sortable.create(Done, { group: "T" });
+     }, 1000);
     }
-  );
-
-/*
-      var Todo = document.getElementById("To Do");
-      Sortable.create(Todo, { group: "T" });
-      var InProgress = document.getElementById("In Progress");
-      Sortable.create(InProgress, { group: "T" });
-      var QA = document.getElementById("QA");
-      Sortable.create(QA, { group: "T" });
-      var AT = document.getElementById("AT");
-      Sortable.create(AT, { group: "T" });
-      var Done = document.getElementById("Done");
-      Sortable.create(Done, { group: "T" });
-*/
+  })
 
 }

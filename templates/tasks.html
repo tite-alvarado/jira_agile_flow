@@ -1,7 +1,9 @@
 <template name="tasks">
   <ul id="{{n}}" class="list-unstyled"> 
   {{#each task (n) }}
+<!--  {{#sortable items=(task (n)) options=taskOptions }} --><!-- persistance -->
     <li> {{ text }} by <strong>{{ username }}</strong></li>
+<!--  {{/sortable}} -->
   {{/each}}
   </ul>
 </template>
